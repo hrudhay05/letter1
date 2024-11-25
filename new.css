@@ -1,0 +1,163 @@
+/* Global reset */
+html, body {
+    padding: 0;
+    margin: 0;
+    height: 100%; /* Ensure full height */
+    background-image: url("pics1.jpg"); /* Background image */
+    background-size: cover; /* Ensure background image covers the entire screen */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    font-family: Arial, sans-serif; /* Global font */
+  }
+  
+  /* Canvas style (if needed for WebGL) */
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Keep the canvas behind other content */
+  }
+  
+  /* Content container */
+  .home {
+    position: relative;
+    width: 100%;
+    min-height: 100vh; /* Ensure full viewport height */
+    padding-bottom: 50px; /* Some space at the bottom for scroll */
+    text-align: center; /* Center text */
+  }
+  
+  /* Styled text box */
+  .text-box {
+    background-color:  rgb(241, 7, 46);/*rgba(255, 105, 180, 0.8); /* Light pink background */
+    padding: 40px;
+    border-radius: 10px; /* Rounded corners */
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 80%; /* Width relative to screen */
+    max-width: 800px; /* Limit max width */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    color: white;
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: left;
+    /* No max-height, the box will adjust dynamically based on the content */
+    word-wrap: break-word; /* Ensure long words wrap inside the box */
+  }
+  
+  /* Custom styling for text inside the text box */
+  .text-box p,pre {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 2.0;
+    margin: 0;
+    color: white;
+  }
+  
+  /* For smaller screens */
+  @media (max-width: 768px) {
+    .text-box {
+      width: 90%; /* Take up more space on smaller screens */
+    }
+    .text-box p {
+      font-size: 16px; /* Adjust text size */
+    }
+  }
+  
+  /* Letter by Letter Animation */
+  .animated-text {
+    display: inline-block;
+    opacity: 0; /* Hide initially */
+    animation: revealText 3s ease-in-out forwards;
+  }
+  
+  .animated-text span {
+    display: inline-block;
+    opacity: 0;
+    animation: letterByLetter 1s ease-in-out forwards;
+    animation-delay: calc(0.1s * var(--index)); /* Delay each letter */
+  }
+  
+  @keyframes letterByLetter {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Apply animation to each span individually */
+  .animated-text span:nth-child(1) {
+    --index: 1;
+  }
+  .animated-text span:nth-child(2) {
+    --index: 2;
+  }
+  .animated-text span:nth-child(3) {
+    --index: 3;
+  }
+  .animated-text span:nth-child(4) {
+    --index: 4;
+  }
+  /* Add as many nth-child selectors for all the span elements */
+  
+  h1 span {
+    font-size: 4em;
+    font-weight: bold;
+    color: white;
+  }
+  
+  h2 {
+    color: white;
+    font-size: 1.5em;
+    font-weight: normal;
+    margin-top: 20px;
+  }
+  
+  /* Optional: If you want to center any specific overlay text */
+  .overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: sans-serif;
+    font-size: 5vw;
+    color: white;
+    pointer-events: none;
+    z-index: 1;
+  }
+  /* Heading Style for the Love Letter */
+.text-box h1 {
+    font-size: 2.0em; /* Adjust size */
+    font-weight: bold;
+    color:rgba(105, 218, 255, 0.8); /* Light pink color */
+    margin-bottom: 20px; /* Space between heading and text */
+    text-transform: uppercase; /* Uppercase letters */
+    letter-spacing: 2px; /* Add spacing between letters */
+    text-align: center; /* Center align the heading */
+  }
+  
+  /* Rose flowers */
+  .rose-left,
+  .rose-right {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 150px; /* Adjust size of the rose image */
+    height:300px;
+    z-index: 1; /* Ensure it stays above the background */
+  }
+  
+  /* Position the left and right roses */
+  .rose-left {
+    left: 10px; /* Position on the left side */
+  }
+  
+  .rose-right {
+    right: 30px; /* Position on the right side */
+  }

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love Letter</title>
+    <link rel="stylesheet" href="new.css" />
+    <style>
+        audio {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <audio autoplay loop>
+        <source src="song123.mp3" type="audio/mp3" />
+        Your browser does not support the audio element.
+      </audio>
+    <div id="home">
+      <div class="home_section">
+        <div id="container">
+          <div class="left"></div>
+          <div class="right"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Text box with heading and content inside it -->
+      <div class="text-box">
+        <h1>ప్రేమలేఖ💖</h1>
+        <p>
+            ప్రియాతి ప్రియమైన నా ప్రేయసికి వ్రాయు ప్రేమ లేఖ....💖, <br />
+
+   <pre>                                నువ్వంటీ ఎంత ఇష్టమో  మాటల్లోనో లేదా చేతల్లోనో చెప్పడం</pre></p> 
+   <p>సాధ్యం కాదు  ఎందుకంటే నిన్ను ఎంతలా ప్రేమిస్తున్నానో నిన్ను ప్రేమించే నా మనసుకి మాత్రమే తెలుసు....  నీను నిన్ను మొదటిసారి చూసినపుడే నాకు నీపై ఎదో తెలియని ప్రేమ జీవితంలో ప్రేమిస్తే నీలాంటి అమ్మాయిని మాత్రమే ప్రేమించాలి అని ఆరోజే అనుకొన్న ... ఆ రోజు నుంచి అనునిత్యం నీ గురించే ఆలోచనలు, కళ్ళు మూసుకొన్న, తెరచిన ఎవ్వరితో మాట్లాడుతున్న నువ్వు సడెన్గా గుర్తొస్తావ్... అప్పుడునాలో నాకే తెలియని ఆనందం ... ఇంకా ఎన్నో మరెన్నో అనుభవాలు ... నీతో ఎంతో మాట్లా డాలి అని ఉంది ఎన్నో విషయాలు చెప్పాలని ఉంది... నిన్నే నా జీవిత భాగస్వామిగా పొందాలని ఉంది...
+
+నా దృష్టిలో ప్రేమంటే. మనం ప్రేమించిన వారి మనస్సుని  చచ్చేంతవరకు మన గుండెల్లో దాచుకోవడం అని నమ్ముతా.... ప్రేమంటే రెండు మనసుల కలయిక కానీ, రెందు శరీరాల కలయిక కాదు..నా జీవితంలో నువ్వు మాములు వ్యక్తివి కాదు.. నా ప్రాణంతో సమానం 
+<br><p><pre>                     చివరిగా నీతో వెలుగు ఉన్నప్పుడి చీకటిలో కూడా ఆ కనిపించని నీడలా ... </pre></p>
+
+ఎల్లప్పుడూ వెలుగులు పంచే సూర్యునిలో నీ జీవితంలో చివరి నిమిషం వరకు తోడుంటా 
+               నీ నుంచి నీను ఒక్కటీ ఆశిస్తా ..
+
+అది నువ్వు నన్ను ప్రీమించడం ……!!
+
+
+          <br />
+          <center>Love you So much Everforever..!!.🤞💖</center>
+          
+        </p>
+        <img src="rose.webp" alt="Rose Left" class="rose-left" />
+      <img src="rose.webp" alt="Rose Right" class="rose-right" />
+      </div>
+      
+    </div>
+
+    <!-- Canvas for WebGL -->
+    <canvas id="glCanvas"></canvas>
+
+    <script type="x-shader/x-fragment" id="vertShader">
+      precision highp float;
+      attribute vec2 aPosition;
+      varying vec2 vUv;
+      varying vec2 vL;
+      varying vec2 vR;
+      varying vec2 vT;
+      varying vec2 vB;
+      uniform vec2 u_vertex_texel;
+
+      void main () {
+        vUv = aPosition * 0.5 + 0.5;
+        vL = vUv - vec2(u_vertex_texel.x, 0.0);
+        vR = vUv + vec2(u_vertex_texel.x, 0.0);
+        vT = vUv + vec2(0.0, u_vertex_texel.y);
+        vB = vUv - vec2(0.0, u_vertex_texel.y);
+        gl_Position = vec4(aPosition, 0.0, 1.0);
+      }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragShaderAdvection">
+      precision highp float;
+      precision highp sampler2D;
+
+      varying vec2 vUv;
+      uniform sampler2D u_velocity_txr;
+      uniform sampler2D u_input_txr;
+      uniform vec2 u_vertex_texel;
+      uniform vec2 u_output_textel;
+      uniform float u_dt;
+      uniform float u_dissipation;
+
+      vec4 bilerp (sampler2D sam, vec2 uv, vec2 tsize) {
+        vec2 st = uv / tsize - 0.5;
+
+        vec2 iuv = floor(st);
+        vec2 fuv = fract(st);
+
+        vec4 a = texture2D(sam, (iuv + vec2(0.5, 0.5)) * tsize);
+        vec4 b = texture2D(sam, (iuv + vec2(1.5, 0.5)) * tsize);
+        vec4 c = texture2D(sam, (iuv + vec2(0.5, 1.5)) * tsize);
+        vec4 d = texture2D(sam, (iuv + vec2(1.5, 1.5)) * tsize);
+
+        return mix(mix(a, b, fuv.x), mix(c, d, fuv.x), fuv.y);
+      }
+
+      void main () {
+        vec2 coord = vUv - u_dt * bilerp(u_velocity_txr, vUv, u_vertex_texel).xy * u_vertex_texel;
+        gl_FragColor = u_dissipation * bilerp(u_input_txr, coord, u_output_textel);
+        gl_FragColor.a = 1.0;
+      }
+    </script>
+
+    <script src="untoldcoding.js"></script>
+    <script>
+      window.onload = function() {
+        const canvas = document.getElementById('glCanvas');
+        const gl = canvas.getContext('webgl');
+
+        if (!gl) {
+          console.log("WebGL not supported, falling back to experimental WebGL.");
+          gl = canvas.getContext('experimental-webgl');
+        }
+
+        if (!gl) {
+          alert("Your browser does not support WebGL.");
+        }
+
+        const vertShader = document.getElementById('vertShader').textContent;
+        const fragShaderAdvection = document.getElementById('fragShaderAdvection').textContent;
+
+        const vertShaderObj = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vertShaderObj, vertShader);
+        gl.compileShader(vertShaderObj);
+
+        const fragShaderObj = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fragShaderObj, fragShaderAdvection);
+        gl.compileShader(fragShaderObj);
+
+        const shaderProgram = gl.createProgram();
+        gl.attachShader(shaderProgram, vertShaderObj);
+        gl.attachShader(shaderProgram, fragShaderObj);
+        gl.linkProgram(shaderProgram);
+        gl.useProgram(shaderProgram);
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        canvas.addEventListener('touchstart', (e) => {});
+
+        function render() {
+          gl.clear(gl.COLOR_BUFFER_BIT);
+          requestAnimationFrame(render);
+        }
+
+        render();
+      }
+    </script>
+  </body>
+</html>
